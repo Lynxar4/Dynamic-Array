@@ -31,18 +31,20 @@ public:
 		}
 	}
 
+	void swap(DynamicArray& other)
+	{
+		int* tempPointer{this->m_array};
+		int tempLength{ this->m_length };
+		m_array = other.m_array;
+		m_length = other.m_length;
+		other.m_array = tempPointer;
+		other.m_length = tempLength;
+	}
+
 	DynamicArray& operator=(const DynamicArray& other)
 	{
-		if (this == &other) 
-			return *this;
-
-		delete m_array;
-		m_length = other.m_length;
-		m_array = new int[m_length];
-		for (std::size_t i{ 0 }; i < other.m_length; ++i)
-		{
-			m_array[i] = other[i];
-		}
+		DynamicArray temp{ other };
+		swap(temp);
 		return *this;
 	}
 
