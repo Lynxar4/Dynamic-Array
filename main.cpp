@@ -1,13 +1,20 @@
 #include <iostream>
 #include "DynamicArray.h"
 
-int main()
+DynamicArray createArray()
 {
 	DynamicArray arr{ 1, 2, 3, 4 };
+	return arr;
+}
 
-	for (int i{ 0 }; i < arr.size(); ++i)
+int main()
+{
+	DynamicArray a{ createArray()};
+	DynamicArray b{ std::move(a) };
+
+	for (int i{ 0 }; i < b.size(); ++i)
 	{
-		std::cout << arr[i] << ' ';
+		std::cout << b[i] << ' ';
 	}
 
 	return 0;

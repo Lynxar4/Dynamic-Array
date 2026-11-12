@@ -49,6 +49,20 @@ public:
 		}
 	}
 
+	DynamicArray(DynamicArray&& other) noexcept 
+		: m_array{ other.m_array }, m_length{other.m_length}, m_capacity{other.m_capacity}
+	{
+		other.m_array = nullptr;
+		other.m_length = 0;
+		other.m_capacity = 0;
+	}
+
+	DynamicArray& operator=(DynamicArray&& other) noexcept
+	{
+		swap(other);
+		return *this;
+	}
+
 	~DynamicArray()
 	{
 		delete[] m_array;
@@ -104,7 +118,7 @@ public:
 private:
 	void reallocate()
 	{
-		m_capacity *= 2;
+		m_capacity = (m_capacity == 0) ? 2 : m_capacity * 2;
 		int* newArr = new int[m_capacity];
 		for (int i{ 0 }; i < m_length; ++i)
 		{
