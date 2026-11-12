@@ -2,6 +2,7 @@
 #define DYNAMICARRAY_H
 
 #include <iostream>
+#include <initializer_list>
 
 class DynamicArray
 {
@@ -24,12 +25,27 @@ public:
 	}
 
 	DynamicArray(const DynamicArray& other)
-		: m_length{ other.m_length }, m_capacity{other.m_capacity}
+		: m_length{ other.m_length }, m_capacity{ other.m_capacity }
 	{
 		m_array = new int[m_capacity] {};
-		for (std::size_t i{ 0 }; i < other.m_length; ++i)
+		for (int i{ 0 }; i < other.m_length; ++i)
 		{
 			m_array[i] = other[i];
+		}
+	}
+
+	DynamicArray(std::initializer_list<int> list)
+		:m_length{ static_cast<int>(list.size())}, m_capacity{m_length * 2}
+	{
+		if (list.size() == 0)
+			m_capacity = 2;
+		m_array = new int[m_capacity];
+
+		int index{0};
+		for (const auto& e : list)
+		{
+			m_array[index] = e;
+			index++;
 		}
 	}
 
@@ -90,7 +106,7 @@ private:
 	{
 		m_capacity *= 2;
 		int* newArr = new int[m_capacity];
-		for (std::size_t i{ 0 }; i < m_length; ++i)
+		for (int i{ 0 }; i < m_length; ++i)
 		{
 			newArr[i] = m_array[i];
 		}

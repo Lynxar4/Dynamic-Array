@@ -3,10 +3,7 @@
 
 int main()
 {
-	DynamicArray arr{};
-	arr.push_back(2);
-	arr.push_back(3);
-	arr.push_back(4);
+	DynamicArray arr{ 1, 2, 3, 4 };
 
 	for (int i{ 0 }; i < arr.size(); ++i)
 	{
