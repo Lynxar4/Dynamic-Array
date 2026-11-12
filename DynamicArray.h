@@ -7,38 +7,51 @@ class DynamicArray
 {
 public:
 	DynamicArray(int size)
-		: m_length{ size }
+		: m_length{ size }, m_capacity{size * 2}
 	{
-		if (m_length > 0)
-			m_array = new int[m_length];
-		else
-			m_array = nullptr;
+		if (size <= 0)
+		{
+			m_length = 0;
+			m_capacity = 2;
+		}
+		m_array = new int[m_capacity] {};
 	}
 
 	DynamicArray()
-		:m_length{ 0 }
+		:m_length{ 0 }, m_capacity{2}
 	{
-		m_array = nullptr;
+		m_array = new int[m_capacity] {};
 	}
 
 	DynamicArray(const DynamicArray& other)
-		: m_length{ other.m_length }
+		: m_length{ other.m_length }, m_capacity{other.m_capacity}
 	{
-		m_array = new int[m_length];
+		m_array = new int[m_capacity] {};
 		for (std::size_t i{ 0 }; i < other.m_length; ++i)
 		{
 			m_array[i] = other[i];
 		}
 	}
 
-	void swap(DynamicArray& other)
+	~DynamicArray()
+	{
+		delete[] m_array;
+		std::cout << "Array deleted\n";
+	}
+
+	void swap(DynamicArray& other) noexcept 
 	{
 		int* tempPointer{this->m_array};
 		int tempLength{ this->m_length };
+		int tempCapacity{ this->m_capacity };
+
 		m_array = other.m_array;
 		m_length = other.m_length;
+		m_capacity = other.m_capacity;
+
 		other.m_array = tempPointer;
 		other.m_length = tempLength;
+		other.m_capacity = tempCapacity;
 	}
 
 	DynamicArray& operator=(const DynamicArray& other)
@@ -58,15 +71,36 @@ public:
 		return m_array[index];
 	}
 
-	~DynamicArray()
+	void push_back(int val)
 	{
-		delete[] m_array;
-		std::cout << "Array deleted";
+		if (m_length == m_capacity)
+			reallocate();
+
+		m_array[m_length] = val;
+		++m_length;
+	}
+
+	int size() const
+	{
+		return m_length;
 	}
 
 private:
+	void reallocate()
+	{
+		m_capacity *= 2;
+		int* newArr = new int[m_capacity];
+		for (std::size_t i{ 0 }; i < m_length; ++i)
+		{
+			newArr[i] = m_array[i];
+		}
+		delete[] m_array;
+		m_array = newArr;
+	}
+
 	int* m_array{};
 	int m_length{};
+	int m_capacity{};
 };
 
 
