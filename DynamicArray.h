@@ -110,9 +110,37 @@ public:
 		++m_length;
 	}
 
+	void pop_back()
+	{
+		if (m_length == 0)
+			return;
+
+		--m_length;
+	}
+
 	int size() const
 	{
 		return m_length;
+	}
+
+	int* begin()
+	{
+		return m_array;
+	}
+
+	int* end()
+	{
+		return m_array + m_length;
+	}
+
+	const int* begin() const
+	{
+		return m_array;
+	}
+
+	const int* end() const
+	{
+		return m_array + m_length;
 	}
 
 private:

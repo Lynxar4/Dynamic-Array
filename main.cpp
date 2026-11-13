@@ -12,9 +12,12 @@ int main()
 	DynamicArray a{ createArray()};
 	DynamicArray b{ std::move(a) };
 
-	for (int i{ 0 }; i < b.size(); ++i)
+	b.pop_back();
+	b.pop_back();
+
+	for (const auto& e : b)
 	{
-		std::cout << b[i] << ' ';
+		std::cout << e << ' ';
 	}
 
 	return 0;
